@@ -61,14 +61,14 @@ public abstract class NoteImageDao {
     @Transaction
     public void updateCover(long noteId, long imageId) {
         clearCover(noteId);
-        setCover(imageId);
+        setCover(noteId, imageId);
     }
 
     @Query("UPDATE note_images SET isCover = 0 WHERE noteId = :noteId AND isCover = 1")
     protected abstract void clearCover(long noteId);
 
-    @Query("UPDATE note_images SET isCover = 1 WHERE id = :imageId")
-    protected abstract void setCover(long imageId);
+    @Query("UPDATE note_images SET isCover = 1 WHERE id = :imageId AND noteId = :noteId")
+    protected abstract void setCover(long noteId, long imageId);
 
     // 兜底：优先返回封面图，没有则返回第一张（sortOrder 最小）
     @Query("SELECT * FROM note_images WHERE noteId = :noteId ORDER BY isCover DESC, sortOrder ASC LIMIT 1")
@@ -95,7 +95,8 @@ static final Migration MIGRATION_1_2 = new Migration(1, 2) {
             + "thumbPath TEXT,"
             + "sortOrder INTEGER NOT NULL DEFAULT 0,"
             + "isCover INTEGER NOT NULL DEFAULT 0,"
-            + "createdAt INTEGER NOT NULL)");
+            + "createdAt INTEGER NOT NULL,"
+            + "FOREIGN KEY(noteId) REFERENCES notes(id) ON DELETE CASCADE)");
         db.execSQL("CREATE INDEX index_note_images_noteId ON note_images(noteId)");
     }
 };
@@ -121,14 +122,21 @@ private void deleteFile(String path) {
 }
 ```
 
-批量删除笔记时同理：先查出所有图片 → 删文件 → 再删数据库记录。
+删除笔记时的完整流程：
+
+1. 查询 noteId 对应的所有 NoteImage
+2. 删除每张图片的 original / display / thumb 文件
+3. 删除 Note（数据库记录）
+4. NoteImage 数据通过外键级联删除（ON DELETE CASCADE）
+
+注意：数据库级联只删数据库记录，不会删除真实文件，因此文件删除必须在删除 Note 之前完成。
 
 ## 图片处理管线
 
-### 应用私有目录结构
+### 应用私有目录结构（getExternalFilesDir）
 
 ```
-files/
+Android/data/com.example.nowlog/files/
   images/
     {noteId}/
       original_{timestamp}.jpg    // 原图（原样复制）
@@ -152,6 +160,9 @@ files/
 暂存 URI 列表（内存中），不立刻入库
         ↓
 点击保存
+        ↓
+校验：文字为空 且 图片列表为空 → Toast 提示，不保存
+校验：文字不为空 或 图片列表不为空 → 继续
         ↓
 ExecutorService 后台线程
   → 先 insert Note，拿到 noteId（@Insert 返回 long）
@@ -197,7 +208,16 @@ private Bitmap decodeAndRotate(File file, int targetLongEdge) {
 
 - 使用 `ActivityResultContracts.GetMultipleContents()` 支持多选
 - 类型为 `"image/*"`
-- 最多选择 9 张（减去已有图片数量）
+- `GetMultipleContents()` 无法强制限制系统相册的选择数量，需在回调中手动截断：
+
+```java
+int remaining = 9 - currentImages.size();
+if (uris.size() > remaining) {
+    Toast.makeText(this, "最多只能添加9张图片", Toast.LENGTH_SHORT).show();
+    uris = uris.subList(0, remaining);
+}
+```
+
 - 相册选择不需要存储权限（通过 SAF 访问）
 
 ### 相机拍照
@@ -395,7 +415,7 @@ annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <paths>
-    <files-path name="images" path="images/" />
+    <external-files-path name="images" path="images/" />
 </paths>
 ```
 
