@@ -23,7 +23,7 @@ public abstract class AppDatabase extends RoomDatabase {
                     INSTANCE = Room.databaseBuilder(
                             context.getApplicationContext(),
                             AppDatabase.class,
-                            "nowlog.db")
+                            "nowlog_db")
                             .addMigrations(MIGRATION_1_2)
                             .build();
                 }
