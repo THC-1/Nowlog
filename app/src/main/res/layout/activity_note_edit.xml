@@ -41,6 +41,31 @@
         android:textColorHint="?attr/colorOnSurfaceVariant"
         android:textSize="16sp" />
 
+    <!-- 图片列表区域 -->
+    <LinearLayout
+        android:id="@+id/imageSection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:paddingHorizontal="24dp">
+
+        <TextView
+            android:id="@+id/tvImageCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="图片 (0/9)"
+            android:textSize="14sp"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:paddingBottom="8dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvImages"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false" />
+    </LinearLayout>
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSave"
         android:layout_width="match_parent"
@@ -52,5 +77,16 @@
         app:backgroundTint="?attr/colorPrimary"
         app:cornerRadius="16dp"
         app:rippleColor="?attr/colorOnPrimary" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAddImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="添加图片"
+        android:src="@android:drawable/ic_menu_gallery"
+        app:fabSize="mini" />
 
 </LinearLayout>
