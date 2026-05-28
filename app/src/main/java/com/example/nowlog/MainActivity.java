@@ -18,19 +18,26 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.nowlog.adapter.NoteAdapter;
 import com.example.nowlog.data.AppDatabase;
 import com.example.nowlog.data.Note;
+import com.example.nowlog.data.NoteImage;
+import com.example.nowlog.util.ImageProcessor;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class MainActivity extends AppCompatActivity implements NoteAdapter.OnNoteLongClickListener {
+public class MainActivity extends AppCompatActivity
+        implements NoteAdapter.OnNoteLongClickListener, NoteAdapter.OnNoteClickListener {
     private RecyclerView recyclerView;
     private View tvEmpty;
     private NoteAdapter adapter;
     private AppDatabase db;
     private ExecutorService executor;
     private Handler mainHandler;
+    private ImageProcessor imageProcessor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,12 +53,13 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OnNot
         db = AppDatabase.getInstance(this);
         executor = Executors.newSingleThreadExecutor();
         mainHandler = new Handler(Looper.getMainLooper());
+        imageProcessor = new ImageProcessor(this);
 
         recyclerView = findViewById(R.id.recyclerView);
         tvEmpty = findViewById(R.id.tvEmpty);
         FloatingActionButton fab = findViewById(R.id.fab);
 
-        adapter = new NoteAdapter(this);
+        adapter = new NoteAdapter(this, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
@@ -70,8 +78,13 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OnNot
     private void loadNotes() {
         executor.execute(() -> {
             List<Note> notes = db.noteDao().getAll();
+            Map<Long, NoteImage> coverMap = new HashMap<>();
+            for (Note note : notes) {
+                NoteImage cover = db.noteImageDao().getCoverByNoteId(note.getId());
+                if (cover != null) coverMap.put(note.getId(), cover);
+            }
             mainHandler.post(() -> {
-                adapter.setNotes(notes);
+                adapter.setData(notes, coverMap);
                 tvEmpty.setVisibility(notes.isEmpty() ? View.VISIBLE : View.GONE);
                 recyclerView.setVisibility(notes.isEmpty() ? View.GONE : View.VISIBLE);
             });
@@ -85,11 +98,37 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OnNot
                 .setMessage("确定要删除这条笔记吗？")
                 .setPositiveButton("删除", (dialog, which) -> {
                     executor.execute(() -> {
+                        // 先删文件
+                        imageProcessor.deleteNoteImageFiles(note.getId());
+                        // 再删数据库（NoteImage 通过外键级联删除）
                         db.noteDao().delete(note);
                         mainHandler.post(this::loadNotes);
                     });
                 })
                 .setNegativeButton("取消", null)
                 .show();
+    }
+
+    @Override
+    public void onNoteClick(Note note) {
+        // 点击笔记：如果有图片，打开图片查看器
+        executor.execute(() -> {
+            List<NoteImage> images = db.noteImageDao().getByNoteId(note.getId());
+            if (!images.isEmpty()) {
+                ArrayList<String> displayPaths = new ArrayList<>();
+                ArrayList<String> originalPaths = new ArrayList<>();
+                for (NoteImage img : images) {
+                    displayPaths.add(img.getDisplayPath());
+                    originalPaths.add(img.getOriginalPath());
+                }
+                mainHandler.post(() -> {
+                    Intent intent = new Intent(this, ImageViewerActivity.class);
+                    intent.putStringArrayListExtra("displayPaths", displayPaths);
+                    intent.putStringArrayListExtra("originalPaths", originalPaths);
+                    intent.putExtra("currentPosition", 0);
+                    startActivity(intent);
+                });
+            }
+        });
     }
 }

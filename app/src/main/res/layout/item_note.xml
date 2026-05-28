@@ -22,6 +22,15 @@
         android:paddingTop="16dp"
         android:paddingBottom="14dp">
 
+        <!-- 封面图（有图片时显示） -->
+        <ImageView
+            android:id="@+id/ivCover"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:scaleType="centerCrop"
+            android:visibility="gone"
+            android:contentDescription="封面图" />
+
         <TextView
             android:id="@+id/tvContent"
             android:layout_width="match_parent"
@@ -60,6 +69,5 @@
                 android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="12sp" />
         </LinearLayout>
-
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
