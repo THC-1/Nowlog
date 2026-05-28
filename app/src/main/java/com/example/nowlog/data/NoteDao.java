@@ -10,7 +10,7 @@ import java.util.List;
 @Dao
 public interface NoteDao {
     @Insert
-    void insert(Note note);
+    long insert(Note note);
 
     @Query("SELECT * FROM notes ORDER BY createdAt DESC")
     List<Note> getAll();
