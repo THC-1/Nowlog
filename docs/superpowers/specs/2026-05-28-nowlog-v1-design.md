@@ -48,14 +48,18 @@ Nowlog 是一个随手记 Android 应用。用户可以快速输入文字笔记�
 - **EditText**：多行输入，自动获取焦点弹出键盘
 - **保存按钮**：底部按钮
 - **校验**：空内容不能保存，提示用户
-- 保存后自动返回列表页
+- 保存成功后调用 `finish()` 返回列表页
 
 ## Time Display
 
 使用 `util/TimeFormatter.java` 工具类：
 
-- 3天内：相对时间（"刚刚"、"5分钟前"、"X小时前"、"昨天"、"X天前"）
-- 超过3天：中文日期格式（"2026年5月28日 20:30"）
+- 小于1分钟：刚刚
+- 小于1小时：X分钟前
+- 小于24小时：X小时前
+- 小于48小时：昨天
+- 小于72小时：X天前
+- 超过72小时：yyyy年M月d日 HH:mm
 
 ## Async Database Operations
 
@@ -84,9 +88,10 @@ com.example.nowlog/
 在现有依赖基础上添加：
 - `androidx.room:room-runtime`
 - `androidx.room:room-compiler` (annotationProcessor)
+- `com.google.android.material:material`（已有则确认版本支持 FAB 和卡片样式）
 
 ## Key Flows
 
 1. **启动** → MainActivity 在 onResume 从 Room 加载笔记 → 按时间倒序显示
 2. **新建** → FAB → NoteEditActivity → 输入内容 → 保存（校验非空）→ 写入 Room → 返回列表
-3. **删除** → 长按卡片 → 确认对话框 → 删除 → 列表刷新
+3. **删除** → 长按卡片 → 确认对话框 → 删除 → 重新调用 `loadNotes()` 刷新列表 → 根据列表是否为空切换空状态显示
