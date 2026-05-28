@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,7 +21,9 @@ import com.example.nowlog.data.AppDatabase;
 import com.example.nowlog.data.Note;
 import com.example.nowlog.data.NoteImage;
 import com.example.nowlog.util.ImageProcessor;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,13 +41,14 @@ public class MainActivity extends AppCompatActivity
     private ExecutorService executor;
     private Handler mainHandler;
     private ImageProcessor imageProcessor;
+    private DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
@@ -55,9 +59,34 @@ public class MainActivity extends AppCompatActivity
         mainHandler = new Handler(Looper.getMainLooper());
         imageProcessor = new ImageProcessor(this);
 
+        drawerLayout = findViewById(R.id.drawerLayout);
         recyclerView = findViewById(R.id.recyclerView);
         tvEmpty = findViewById(R.id.tvEmpty);
         FloatingActionButton fab = findViewById(R.id.fab);
+        MaterialToolbar toolbar = findViewById(R.id.toolbar);
+        NavigationView navView = findViewById(R.id.navView);
+
+        // Toolbar: hamburger menu opens drawer
+        toolbar.setNavigationOnClickListener(v -> drawerLayout.openDrawer(navView));
+
+        // Toolbar: profile icon opens My/Settings
+        toolbar.setOnMenuItemClickListener(item -> {
+            Intent intent = new Intent(this, MySettingsActivity.class);
+            startActivity(intent);
+            return true;
+        });
+
+        // Drawer navigation
+        navView.setNavigationItemSelectedListener(item -> {
+            int id = item.getItemId();
+            drawerLayout.closeDrawer(navView);
+            if (id == R.id.nav_calendar) {
+                startActivity(new Intent(this, CalendarActivity.class));
+            } else if (id == R.id.nav_favorites) {
+                startActivity(new Intent(this, FavoritesActivity.class));
+            }
+            return true;
+        });
 
         adapter = new NoteAdapter(this, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -98,9 +127,7 @@ public class MainActivity extends AppCompatActivity
                 .setMessage("确定要删除这条笔记吗？")
                 .setPositiveButton("删除", (dialog, which) -> {
                     executor.execute(() -> {
-                        // 先删文件
                         imageProcessor.deleteNoteImageFiles(note.getId());
-                        // 再删数据库（NoteImage 通过外键级联删除）
                         db.noteDao().delete(note);
                         mainHandler.post(this::loadNotes);
                     });
@@ -111,7 +138,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onNoteClick(Note note) {
-        // 点击笔记：如果有图片，打开图片查看器
         executor.execute(() -> {
             List<NoteImage> images = db.noteImageDao().getByNoteId(note.getId());
             if (!images.isEmpty()) {

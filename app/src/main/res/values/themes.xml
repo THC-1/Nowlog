@@ -72,4 +72,20 @@
     <style name="Nowlog.ImageRounded" parent="">
         <item name="cornerSize">12dp</item>
     </style>
+
+    <style name="Nowlog.Drawer" parent="">
+        <item name="cornerSize">16dp</item>
+    </style>
+
+    <style name="Nowlog.PageTitle" parent="TextAppearance.Material3.HeadlineMedium">
+        <item name="android:textSize">28sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <style name="Nowlog.EmptyIcon" parent="">
+        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_height">80dp</item>
+        <item name="android:tint">?attr/colorOutlineVariant</item>
+    </style>
 </resources>
