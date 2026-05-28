@@ -1,5 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Primary - Warm Brown (Journal) -->
+    <color name="nowlog_primary">#92400E</color>
+    <color name="nowlog_on_primary">#FFFFFF</color>
+    <color name="nowlog_primary_container">#FDE8D0</color>
+    <color name="nowlog_on_primary_container">#3B1600</color>
+
+    <!-- Secondary - Warm Amber -->
+    <color name="nowlog_secondary">#A16207</color>
+    <color name="nowlog_on_secondary">#FFFFFF</color>
+    <color name="nowlog_secondary_container">#FFF3D6</color>
+    <color name="nowlog_on_secondary_container">#332000</color>
+
+    <!-- Tertiary - Ink Violet -->
+    <color name="nowlog_tertiary">#6366F1</color>
+    <color name="nowlog_on_tertiary">#FFFFFF</color>
+    <color name="nowlog_tertiary_container">#E0E1FF</color>
+    <color name="nowlog_on_tertiary_container">#1E1A50</color>
+
+    <!-- Surface & Background -->
+    <color name="nowlog_background">#FFFBF5</color>
+    <color name="nowlog_on_background">#1F1B16</color>
+    <color name="nowlog_surface">#FFFBF5</color>
+    <color name="nowlog_on_surface">#1F1B16</color>
+    <color name="nowlog_surface_variant">#F5E6D8</color>
+    <color name="nowlog_on_surface_variant">#524439</color>
+
+    <!-- Surface containers -->
+    <color name="nowlog_surface_container">#F5EDE5</color>
+    <color name="nowlog_surface_container_low">#FAF3EC</color>
+    <color name="nowlog_surface_container_high">#EDE5DD</color>
+    <color name="nowlog_surface_container_highest">#E7DFD7</color>
+
+    <!-- Outline -->
+    <color name="nowlog_outline">#857367</color>
+    <color name="nowlog_outline_variant">#D8C2B4</color>
+
+    <!-- Error -->
+    <color name="nowlog_error">#DC2626</color>
+    <color name="nowlog_on_error">#FFFFFF</color>
+    <color name="nowlog_error_container">#FFE0E0</color>
+
+    <!-- Inverse -->
+    <color name="nowlog_inverse_surface">#352F2A</color>
+    <color name="nowlog_inverse_on_surface">#FAEEE6</color>
+    <color name="nowlog_inverse_primary">#F5BA73</color>
+
+    <!-- Legacy aliases -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 </resources>

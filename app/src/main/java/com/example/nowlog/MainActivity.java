@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
@@ -27,7 +26,7 @@ import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity implements NoteAdapter.OnNoteLongClickListener {
     private RecyclerView recyclerView;
-    private TextView tvEmpty;
+    private View tvEmpty;
     private NoteAdapter adapter;
     private AppDatabase db;
     private ExecutorService executor;
