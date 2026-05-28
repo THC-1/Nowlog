@@ -1,0 +1,30 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="120"
+    android:viewportHeight="120">
+
+    <!-- Paper background -->
+    <path
+        android:fillColor="@color/nowlog_primary_container"
+        android:pathData="M30,20 h45 c3,0 5,2 5,5 v70 c0,3 -2,5 -5,5 H30 c-3,0 -5,-2 -5,-5 V25 c0,-3 2,-5 5,-5z" />
+
+    <!-- Folded corner -->
+    <path
+        android:fillColor="@color/nowlog_surface_variant"
+        android:pathData="M70,20 v12 c0,3 2,5 5,5 h12 z" />
+
+    <!-- Lines on paper -->
+    <path
+        android:strokeColor="@color/nowlog_outline_variant"
+        android:strokeWidth="2"
+        android:pathData="M38,40 h29 M38,50 h25 M38,60 h20 M38,70 h15" />
+
+    <!-- Pen -->
+    <path
+        android:fillColor="@color/nowlog_tertiary"
+        android:pathData="M82,65 l15,-30 c1,-2 3,-2 4,0 l-26,15 c-2,1 -2,3 0,4 z" />
+    <path
+        android:fillColor="@color/nowlog_on_tertiary"
+        android:pathData="M76,54 l6,-3 15,-30 -9,33 z" />
+</vector>
