@@ -1,0 +1,8 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/nowlog_surface_container_low" />
+    <corners android:radius="12dp" />
+    <stroke
+        android:width="0.5dp"
+        android:color="@color/nowlog_outline_variant" />
+</shape>

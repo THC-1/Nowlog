@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingTop="12dp"
+    android:paddingBottom="24dp"
+    android:paddingHorizontal="24dp"
+    android:background="?attr/colorSurfaceContainer">
+
+    <!-- Drag handle -->
+    <View
+        android:layout_width="32dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/bg_bottom_sheet_handle" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="选择图片来源"
+        android:textAppearance="@style/Nowlog.BottomSheetTitle"
+        android:gravity="center"
+        android:paddingBottom="20dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnCamera"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:text="拍照"
+        android:textSize="15sp"
+        app:icon="@drawable/ic_camera"
+        app:iconGravity="textStart"
+        app:iconSize="22dp"
+        app:cornerRadius="12dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnGallery"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_marginTop="10dp"
+        android:text="从相册选择"
+        android:textSize="15sp"
+        app:icon="@drawable/ic_photo_library"
+        app:iconGravity="textStart"
+        app:iconSize="22dp"
+        app:cornerRadius="12dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnCancel"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="6dp"
+        android:text="取消"
+        android:textSize="15sp" />
+</LinearLayout>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ivImage"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:scaleType="centerCrop"
+        android:contentDescription="笔记图片"
+        app:shapeAppearanceOverlay="@style/Nowlog.ImageRounded" />
+
+    <!-- 删除按钮 -->
+    <ImageView
+        android:id="@+id/ivDelete"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_gravity="top|end"
+        android:layout_margin="8dp"
+        android:background="@drawable/bg_circle_delete"
+        android:padding="6dp"
+        android:src="@drawable/ic_delete"
+        android:contentDescription="删除图片"
+        android:scaleType="centerInside" />
+
+    <!-- 拖拽排序手柄 -->
+    <View
+        android:id="@+id/dragHandle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</FrameLayout>

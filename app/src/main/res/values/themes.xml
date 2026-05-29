@@ -1,9 +1,91 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
     <style name="Base.Theme.Nowlog" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!-- Primary -->
+        <item name="colorPrimary">@color/nowlog_primary</item>
+        <item name="colorOnPrimary">@color/nowlog_on_primary</item>
+        <item name="colorPrimaryContainer">@color/nowlog_primary_container</item>
+        <item name="colorOnPrimaryContainer">@color/nowlog_on_primary_container</item>
+
+        <!-- Secondary -->
+        <item name="colorSecondary">@color/nowlog_secondary</item>
+        <item name="colorOnSecondary">@color/nowlog_on_secondary</item>
+        <item name="colorSecondaryContainer">@color/nowlog_secondary_container</item>
+        <item name="colorOnSecondaryContainer">@color/nowlog_on_secondary_container</item>
+
+        <!-- Tertiary -->
+        <item name="colorTertiary">@color/nowlog_tertiary</item>
+        <item name="colorOnTertiary">@color/nowlog_on_tertiary</item>
+        <item name="colorTertiaryContainer">@color/nowlog_tertiary_container</item>
+        <item name="colorOnTertiaryContainer">@color/nowlog_on_tertiary_container</item>
+
+        <!-- Background & Surface -->
+        <item name="android:colorBackground">@color/nowlog_background</item>
+        <item name="colorOnBackground">@color/nowlog_on_background</item>
+        <item name="colorSurface">@color/nowlog_surface</item>
+        <item name="colorOnSurface">@color/nowlog_on_surface</item>
+        <item name="colorSurfaceVariant">@color/nowlog_surface_variant</item>
+        <item name="colorOnSurfaceVariant">@color/nowlog_on_surface_variant</item>
+
+        <!-- Outline -->
+        <item name="colorOutline">@color/nowlog_outline</item>
+        <item name="colorOutlineVariant">@color/nowlog_outline_variant</item>
+
+        <!-- Error -->
+        <item name="colorError">@color/nowlog_error</item>
+        <item name="colorOnError">@color/nowlog_on_error</item>
+        <item name="colorErrorContainer">@color/nowlog_error_container</item>
+
+        <!-- Inverse -->
+        <item name="colorSurfaceInverse">@color/nowlog_inverse_surface</item>
+        <item name="colorOnSurfaceInverse">@color/nowlog_inverse_on_surface</item>
+        <item name="colorPrimaryInverse">@color/nowlog_inverse_primary</item>
+
+        <!-- Status bar -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
 
     <style name="Theme.Nowlog" parent="Base.Theme.Nowlog" />
+
+    <style name="Nowlog.ToolbarTitle" parent="TextAppearance.Material3.TitleLarge">
+        <item name="android:textSize">22sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="Nowlog.FAB" parent="">
+        <item name="cornerSize">18dp</item>
+    </style>
+
+    <style name="Nowlog.EditCard" parent="Widget.Material3.CardView.Outlined">
+        <item name="cardCornerRadius">16dp</item>
+        <item name="cardElevation">0dp</item>
+        <item name="strokeColor">?attr/colorOutlineVariant</item>
+        <item name="strokeWidth">0.5dp</item>
+        <item name="cardBackgroundColor">?attr/colorSurfaceContainerLow</item>
+    </style>
+
+    <style name="Nowlog.BottomSheetTitle" parent="TextAppearance.Material3.TitleMedium">
+        <item name="android:textColor">?attr/colorOnSurface</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="Nowlog.ImageRounded" parent="">
+        <item name="cornerSize">12dp</item>
+    </style>
+
+    <style name="Nowlog.Drawer" parent="">
+        <item name="cornerSize">16dp</item>
+    </style>
+
+    <style name="Nowlog.PageTitle" parent="TextAppearance.Material3.HeadlineMedium">
+        <item name="android:textSize">28sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <style name="Nowlog.EmptyIcon" parent="">
+        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_height">80dp</item>
+        <item name="android:tint">?attr/colorOutlineVariant</item>
+    </style>
 </resources>
